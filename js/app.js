@@ -11,10 +11,10 @@
 // let salesPage = document.getElementById("salesPage");
 
 // *************Globals Lab 7**************
-let hoursSection = document.getElementById('Hours');
+let hoursSection = document.getElementById('hours');
 let hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 let citySales = []; //storing city location, sales and objects
-
+let table = document.createElement('table');
 // *************Constructor Functions Lab 7**************
 function City(location, minCust, maxCust, avgcookieSale){
   this.location = location;
@@ -41,20 +41,29 @@ City.prototype.getdailyTotal = function(){
       this.cookieBought.push(cookieHours);
       this.dailyTotal += cookieHours
   }
+ 
 };
 
 City.prototype.render = function(){
 
+ 
 
   let articleElem = document.querySelector('article');
   let pElem = document.querySelector('p');
+  let head = document.querySelector('header');
 
-  
-  let table = document.createElement('table');
+  let tHead = document.createElement('tHead');
+  head.appendChild(tHead);
+
+
   articleElem.appendChild(table);
+  
 
-  let row1 = document.createElement('tr');
-  table.appendChild(row1);
+
+
+  let row3 = document.createElement('tr');
+
+
   
   let row2 = document.createElement('tr');
   table.appendChild(row2);
@@ -62,16 +71,17 @@ City.prototype.render = function(){
 
   let th1Elem = document.createElement('th');
   th1Elem.textContent = this.location;
-  row1.appendChild(th1Elem);
+  row2.appendChild(th1Elem);
 
   for (let i = 0; i < this.cookieBought.length; i++) {
     let td1Elem = document.createElement('td');
-    td1Elem.textContent = `${hours[i]}: ${this.cookieBought[i]} Cookies`;
+    td1Elem.textContent = `${this.cookieBought[i]}`;
     row2.appendChild(td1Elem);
   }
+  
   let td2Elem = document.createElement('td');
   pElem.textContent = `Total: ${this.dailyTotal}`;
-  row1.appendChild(td2Elem);
+  row3.appendChild(td2Elem);
   
 
   // let ulElem = document.createElement('ul');
@@ -112,6 +122,21 @@ City.prototype.render = function(){
 
 
 
+function makeHeader(){
+  let row1 = document.createElement('tr');
+  table.appendChild(row1);
+
+  let tdBlank =document.createElement('td');
+  row1.appendChild(tdBlank);
+
+  for (let i = 0; i < hours.length; i++){
+    let tdHour = document.createElement('td');
+    tdHour.textContent = hours[i];
+    row1.appendChild(tdHour);
+
+  }
+}
+
 //**********Executable Code Lab7 */
 // push new city information to the array
 let seattle = new City('seattle', 23, 65, 6.3);
@@ -125,6 +150,7 @@ console.log(citySales);
 
 //helper function that calls needed methods
 function renderAll(){
+  makeHeader();
   for (let i = 0; i < citySales.length; i++){
     citySales[i].getdailyTotal();
     citySales[i].render();
